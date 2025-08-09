@@ -1,19 +1,31 @@
 class Solution {
   public:
     int getLongestPrefix(string &s) {
-        int n = s.size();
-
-        for (int len = n - 1; len >= 1; --len) {
-            string prefix = s.substr(0, len);
-            string repeated = "";
-
-            while (repeated.size() < n)
-                repeated += prefix;
-
-            if (repeated.substr(0, n) == s)
-                return len;
+        // code here
+          int n = s.size();
+        int len = s.size()-1;
+        
+        while(len){
+            int sPtr = len;
+            int i = 0;
+            
+            while(sPtr<n){
+                if(s[sPtr] == s[i]){
+                    i++;
+                    sPtr++;
+                }
+                else{
+                    break;
+                }
+            }
+            
+            if(sPtr==n)
+              return len;
+            
+            len--;
         }
-
+        
+        
         return -1;
     }
 };
