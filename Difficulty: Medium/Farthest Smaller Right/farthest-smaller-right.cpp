@@ -2,20 +2,24 @@ class Solution {
   public:
     vector<int> farMin(vector<int>& arr) {
         // code here
-        vector<pair<int,int>>v;
-        int n= arr.size();
-        for(int i=0;i<n;i++){
-            v.push_back({arr[i],i});
+          int n = arr.size();
+         
+         vector<int>result(n, -1);
+          vector<int>suff(n);
+          suff[n-1] = arr[n-1];
+          for(int i = n-2; i >= 0; i--){
+              suff[i] = min(suff[i+1],arr[i] );
+          }
+          
+        for(int i = 0 ; i  < n;i++){
+              int idx = lower_bound(suff.begin()+i+1, suff.end(), arr[i])-suff.begin()-1; 
+         
+              if(arr[idx] < arr[i] && idx!=i ){
+                  result[i] =idx;
+              }
+              else result[i] = -1; 
+              
         }
-        sort(v.begin(),v.end());
-        vector<int>ans(n,-1);
-        int maxi = v[0].second;
-        for(int i=1;i<n;i++){
-            if(maxi>v[i].second){
-                ans[v[i].second]= maxi;
-            }
-            maxi = max ( maxi , v[i].second);
-        }
-        return ans;
+        return result; 
     }
 };
