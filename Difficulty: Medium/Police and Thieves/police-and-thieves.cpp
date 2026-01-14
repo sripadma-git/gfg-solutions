@@ -2,25 +2,20 @@ class Solution {
   public:
     int catchThieves(vector<char> &arr, int k) {
         // Code here
-         vector<int>police,thief;
-        
-        for(int i=0;i<arr.size();i++){
-            if(arr[i]=='P')police.push_back(i);
-            if(arr[i]=='T')thief.push_back(i);
+        int n=arr.size();
+        int count=0;
+        int t=0,p=0;
+        while(t<n && p<n)
+        {
+            while(t<n && arr[t]!='T') ++t;
+            while(p<n && arr[p]!='P') ++p;
+            if(t<n && p<n && abs(t-p)<=k)
+            {
+                ++count;++p;++t;
+            }
+            else if(t<p) ++t;
+            else ++p;
         }
-        int i=0,j=0,caught=0;
-        
-        while(i<police.size() && j<thief.size()){
-            if (abs(police[i] - thief[j]) <= k) {
-                caught++;
-                i++;
-                j++;
-        }else if (thief[j] < police[i]) {
-            j++;
-        }else{
-            i++;
-        }
-        }
-        return caught;
+        return count;
     }
 };
