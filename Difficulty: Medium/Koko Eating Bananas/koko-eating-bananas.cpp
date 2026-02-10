@@ -2,39 +2,36 @@ class Solution {
   public:
     int kokoEat(vector<int>& arr, int k) {
         // Code here
-        int n =arr.size();
-        
-        int l=1,h= *max_element(arr.begin() , arr.end());
-        
-        int ans = 1 ; 
-        
-        while(l<=h){
-            int mid = l + (h-l)/2;
-            
-            if(isvalid(arr , k , mid )){
-                ans = mid;
-                h = mid - 1;
-            }else{
-                l = mid + 1;
+        sort(arr.begin(),arr.end());
+        int s = 1;
+        int e = arr[arr.size()-1];
+        int mid = s+(e-s)/2;
+        int mini = INT_MAX;
+        while(s<=e){
+            int cnt = 0;
+            int a = mid;
+            for(int i = 0;i<arr.size();i++){
+                if(arr[i] <= a){
+                    cnt++;
+                }
+                else{
+                    int c = arr[i];
+                    while(c > a){
+                        cnt++;
+                        c = c-a;
+                    }
+                    cnt++;
+                }
             }
-            
-        }
-        
-        return ans;
-    }
-    private:
-    
-    bool isvalid(vector<int> &arr , int k , int mid){
-        int hours = 0 ;
-        
-        for(int i=0;i<arr.size();i++){
-            hours += arr[i]/mid;
-            if(arr[i]%mid){
-                hours++;
+            if(cnt<=k){
+                mini = min(mini,a);
+                e = mid - 1;
             }
+            else{
+                s = mid + 1;
+            }
+            mid = s+(e-s)/2;
         }
-        
-        return hours<=k;
+        return mini;
     }
-
 };
