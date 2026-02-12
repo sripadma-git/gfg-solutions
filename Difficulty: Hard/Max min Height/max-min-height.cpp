@@ -2,7 +2,7 @@ class Solution {
   public:
     int maxMinHeight(vector<int> &arr, int k, int w) {
         // code here
-         int low=*min_element(arr.begin(),arr.end());
+        int low=*min_element(arr.begin(),arr.end());
         
         int high=(int)(1e9);
         
