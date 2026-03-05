@@ -2,17 +2,34 @@ class Solution {
   public:
     int longestKSubstr(string &s, int k) {
         // code here
-            unordered_map<int,int>mp;
-        int j = 0, n = s.length(), ans = -1;
-        for (int i=0; i<n; i++){
-            mp[s[i] - 'a']+=1;
-            while (j <= i && mp.size() > k){
-                mp[s[j]-'a']-=1;
-                if (mp[s[j]-'a'] == 0) mp.erase(s[j]-'a');
-                j++;
+        int count[26] = {0};
+        int i = 0;
+        int j = 0;
+        int cnt = 0;
+        int maxi = INT_MIN;
+        while(j < s.length()){
+            count[s[j]-'a']++;
+            if(count[s[j]-'a'] == 1){
+               cnt++; 
             }
-            if (mp.size() == k) ans = max(ans, i - j + 1);
+            if(cnt > k){
+                int a = (j-1)-i+1;
+                maxi = max(maxi,a);
+                count[s[i]-'a']--;
+                while(count[s[i]-'a'] != 0){
+                    i++;
+                    count[s[i]-'a']--;
+                }
+                i++;
+                cnt = k;
+            }
+            j++;
         }
-        return ans;
+        if(cnt < k){
+            return -1;
+        }
+        int a = (j-1)-i+1;
+        maxi = max(maxi,a);
+        return maxi;
     }
 };
