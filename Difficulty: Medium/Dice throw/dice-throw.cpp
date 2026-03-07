@@ -2,25 +2,23 @@ class Solution {
   public:
     int noOfWays(int m, int n, int x) {
         // code here
-        vector<int>prev(x + 1 , 0 ) ;
-        prev[0] = 1 ;
+        vector<vector<int>>dp(n+1,vector<int>(x+1,0));
+        // return helper(n,m,x,dp);
+        dp[0][0]=1;
         
-        for(int i = 1 ; i <= n ; i ++){
-            
-            vector<int>curr(x + 1 , 0 );
-            for(int j = 1 ; j <= x ; j ++){
-                
-                int ans = 0 ;
-                for(int k = 1 ; k <= m ; k ++){
-                    if(k > j) break ;
-                    ans += prev[j - k] ;
+        
+        for(int dice=1;dice<=n;dice++){
+            for(int target=1;target<=x;target++){
+                int cnt=0;
+                for(int i=1;i<=m;i++){
+                    if(target>=i){
+                       cnt+=dp[dice-1][target-i]; 
+                    } else break;
                 }
-                curr[j] = ans ;
-                
+                dp[dice][target]=cnt;
             }
-            prev = curr ;
-            
         }
-        return prev[x] ;
+        
+        return dp[n][x];
     }
 };
